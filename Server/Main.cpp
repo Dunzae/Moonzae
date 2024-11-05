@@ -13,54 +13,18 @@ int __cdecl main(void)
     int error = 0;
     ServerSocket server{"127.0.0.1"};
 
-    if (!server.getHostInfo())
-    {
-        std::cout << "ErrorCode : " << server.GetErrorCode() << std::endl;
-        std::cout << "ErrorMessage : " << server.GetErrorMessage() << std::endl;
+    try {
+        server.GetHostInfo();
+        server.Create();
+        server.Bind();
+        server.Listen();
+        server.Accept();
+        server.SendMessage("안녕하세요");
+        server.Shutdown();
+
+    } catch(std::string errorMessage) {
+        std::cout << "ErrorMessage : " << errorMessage << std::endl;
         return 1;
     }
-
-    if (!server.createListenSocket())
-    {
-        std::cout << "ErrorCode : " << server.GetErrorCode() << std::endl;
-        std::cout << "ErrorMessage : " << server.GetErrorMessage() << std::endl;
-        return 1;
-    }
-
-    if (!server.bind())
-    {
-        std::cout << "ErrorCode : " << server.GetErrorCode() << std::endl;
-        std::cout << "ErrorMessage : " << server.GetErrorMessage() << std::endl;
-        return 1;
-    }
-
-    if (!server.listen())
-    {
-        std::cout << "ErrorCode : " << server.GetErrorCode() << std::endl;
-        std::cout << "ErrorMessage : " << server.GetErrorMessage() << std::endl;
-        return 1;
-    }
-
-    if (!server.accept())
-    {
-        std::cout << "ErrorCode : " << server.GetErrorCode() << std::endl;
-        std::cout << "ErrorMessage : " << server.GetErrorMessage() << std::endl;
-        return 1;
-    }
-
-    if (!server.sendMessage((std::string) "안녕하세요"))
-    {
-        std::cout << "ErrorCode : " << server.GetErrorCode() << std::endl;
-        std::cout << "ErrorMessage : " << server.GetErrorMessage() << std::endl;
-        return 1;
-    }
-
-    if (!server.shutdown())
-    {
-        std::cout << "ErrorCode : " << server.GetErrorCode() << std::endl;
-        std::cout << "ErrorMessage : " << server.GetErrorMessage() << std::endl;
-        return 1;
-    }
-
     return 0;
 }
