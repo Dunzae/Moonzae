@@ -11,8 +11,6 @@
 int __cdecl main(void)
 {
     int error = 0;
-    SOCKET ListenSocket;
-    SOCKET ClientSocket;
     ServerSocket server{"127.0.0.1"};
 
     if (!server.getHostInfo())
