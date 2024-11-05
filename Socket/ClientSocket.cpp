@@ -1,46 +1,43 @@
 #include "ClientSocket.h"
 
-bool ClientSocket::connect()
+ClientSocket::ClientSocket(std::string _ip) : Socket{_ip}
 {
     socket = ::socket(hostAddrInfo->ai_family, hostAddrInfo->ai_socktype,
                       hostAddrInfo->ai_protocol);
     if (socket == INVALID_SOCKET)
     {
         errorCode = WSAGetLastError();
-        errorMessage = "Socket Create Error";
         freeaddrinfo(hostAddrInfo);
-        return false;
+        throw "ClientSocket::ClientSocket() : socket";
     }
+};
 
+void ClientSocket::Connect()
+{
     int iResult = ::connect(socket, hostAddrInfo->ai_addr, (int)hostAddrInfo->ai_addrlen);
     if (iResult == SOCKET_ERROR)
     {
         closesocket(socket);
         errorCode = INVALID_SOCKET;
-        errorMessage = "Connect Error";
         freeaddrinfo(hostAddrInfo);
-        return false;
+        throw "ClientSocket::Connect : connect";
     }
-
     freeaddrinfo(hostAddrInfo);
-    return true;
 }
 
-bool ClientSocket::sendMessage(std::string message)
+void ClientSocket::SendMessage(std::string message)
 {
     const char *cMessage = message.c_str();
     int iSendResult = send(socket, cMessage, strlen(cMessage), 0);
     if (iSendResult == SOCKET_ERROR)
     {
         errorCode = WSAGetLastError();
-        errorMessage = "Send Error";
         closesocket(socket);
-        return false;
+        throw "ClientSocket::SendMessage : send";
     }
-    return true;
 }
 
-std::string ClientSocket::recvMessage(unsigned int maxSize)
+std::string ClientSocket::RecvMessage(unsigned int maxSize)
 {
     char *buf = new char[maxSize];
     std::string recvMessage = "";
@@ -49,10 +46,9 @@ std::string ClientSocket::recvMessage(unsigned int maxSize)
     if (iSendResult == SOCKET_ERROR)
     {
         errorCode = WSAGetLastError();
-        errorMessage = "Recv Error";
         closesocket(socket);
         delete buf;
-        return "";
+        throw "ClientSocket::RecvMessage : recv";
     }
 
     recvMessage = buf;

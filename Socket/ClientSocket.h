@@ -13,9 +13,9 @@ public:
     ClientSocket(std::string _ip) : Socket{_ip} {};
     ~ClientSocket() {};
 
-    bool connect();
-    bool sendMessage(std::string message) override;
-    std::string recvMessage(unsigned int maxSize) override;
+    void Connect();
+    void SendMessage(std::string message) override;
+    std::string RecvMessage(unsigned int maxSize) override;
 };
 
 #endif
