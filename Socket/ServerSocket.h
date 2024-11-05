@@ -1,5 +1,5 @@
-#ifndef __SOCKET_H__
-#define __SOCKET_H___
+#ifndef __SERVER_SOCKET_H__
+#define __SERVER_SOCKET_H___
 
 #include <WinSock2.h>
 #include <ws2tcpip.h>
