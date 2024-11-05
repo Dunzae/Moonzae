@@ -8,8 +8,6 @@
 
 #pragma comment(lib, "Ws2_32.lib")
 
-#define DEFAULT_BUFLEN 512
-
 int __cdecl main(void)
 {
     int error = 0;
