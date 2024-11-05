@@ -1,6 +1,8 @@
 #include "ClientSocket.h"
 
-ClientSocket::ClientSocket(std::string _ip) : Socket{_ip}
+ClientSocket::ClientSocket(std::string _ip) : Socket(_ip) {};
+
+void ClientSocket::Create()
 {
     socket = ::socket(hostAddrInfo->ai_family, hostAddrInfo->ai_socktype,
                       hostAddrInfo->ai_protocol);
@@ -11,6 +13,10 @@ ClientSocket::ClientSocket(std::string _ip) : Socket{_ip}
         throw "ClientSocket::ClientSocket() : socket";
     }
 };
+
+ClientSocket::~ClientSocket() {
+    
+}
 
 void ClientSocket::Connect()
 {
