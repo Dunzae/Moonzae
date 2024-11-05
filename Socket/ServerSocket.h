@@ -17,12 +17,12 @@ public:
     ServerSocket(std::string _ip) : Socket{_ip}{};
     ~ServerSocket() {};
 
-    bool createListenSocket();
-    bool bind();
-    bool listen();
-    bool accept();
-    bool sendMessage(std::string message) override;
-    std::string recvMessage(unsigned int maxSize) override;
+    void Create();
+    void Bind();
+    void Listen();
+    void Accept();
+    void SendMessage(std::string message) override;
+    std::string RecvMessage(unsigned int maxSize) override;
 
     //Getter and Setter
     SOCKET GetListenSocket() const;
