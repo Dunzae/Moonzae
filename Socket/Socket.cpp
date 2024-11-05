@@ -28,7 +28,7 @@ bool Socket::getHostInfo()
     hints.ai_protocol = IPPROTO_TCP;
     hints.ai_flags = AI_PASSIVE;
 
-    int iResult = getaddrinfo(NULL, port.c_str(), &hints, &hostAddrInfo);
+    int iResult = getaddrinfo(ip.c_str(), port.c_str(), &hints, &hostAddrInfo);
     if (iResult != 0)
     {
         errorCode = iResult;

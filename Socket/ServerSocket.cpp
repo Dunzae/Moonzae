@@ -95,19 +95,6 @@ std::string ServerSocket::recvMessage(unsigned int maxSize)
     return recvMessage;
 }
 
-bool ServerSocket::shutdownClient()
-{
-    int iResult = ::shutdown(socket, SD_SEND);
-    if (iResult == SOCKET_ERROR)
-    {
-        errorCode = WSAGetLastError();
-        errorMessage = "Shutdown Error";
-        closesocket(socket);
-        return false;
-    }
-    return true;
-}
-
 SOCKET ServerSocket::GetListenSocket() const
 {
     return listenSocket;

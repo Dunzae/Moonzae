@@ -23,7 +23,6 @@ public:
     bool accept();
     bool sendMessage(std::string message) override;
     std::string recvMessage(unsigned int maxSize) override;
-    bool shutdownClient();
 
     //Getter and Setter
     SOCKET GetListenSocket() const;
