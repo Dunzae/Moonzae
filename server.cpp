@@ -15,7 +15,7 @@ int __cdecl main(void)
     int error = 0;
     SOCKET ListenSocket;
     SOCKET ClientSocket;
-    ServerSocket server{(std::string) "127.0.0.1"};
+    ServerSocket server{"127.0.0.1"};
 
     if (!server.getHostInfo())
     {
@@ -59,7 +59,7 @@ int __cdecl main(void)
         return 1;
     }
 
-    if (!server.shutdownClient())
+    if (!server.shutdown())
     {
         std::cout << "ErrorCode : " << server.GetErrorCode() << std::endl;
         std::cout << "ErrorMessage : " << server.GetErrorMessage() << std::endl;
