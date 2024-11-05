@@ -1,15 +1,14 @@
 #include "Socket.h"
 
 Socket::Socket(std::string _ip) : errorCode{0}, socket{INVALID_SOCKET}, ip{_ip},
-                                  port{"27015"}, errorMessage{""}, hostAddrInfo{nullptr}
+                                  port{"27015"}, hostAddrInfo{nullptr}
 {
     WSADATA wsaData;
     int iResult = WSAStartup(MAKEWORD(2, 2), &wsaData);
     if (iResult != 0)
     {
         errorCode = iResult;
-        errorMessage = "WSAStartup Error";
-        return;
+        throw "Socket::Socket WSAStartup";
     }
 }
 
@@ -20,7 +19,7 @@ Socket::~Socket()
     WSACleanup();
 }
 
-bool Socket::getHostInfo()
+void Socket::GetHostInfo()
 {
     struct addrinfo hints{0};
     hints.ai_family = AF_INET;
@@ -32,26 +31,22 @@ bool Socket::getHostInfo()
     if (iResult != 0)
     {
         errorCode = iResult;
-        errorMessage = "GetAddrInfo Error";
-        return false;
+        throw "Socket::GetAddrInfo";
     }
-    return true;
 }
 
-bool Socket::shutdown()
+void Socket::Shutdown()
 {
     int iResult = ::shutdown(socket, SD_SEND);
     if (iResult == SOCKET_ERROR)
     {
         errorCode = WSAGetLastError();
-        errorMessage = "Shutdown error";
 
         closesocket(socket);
         socket = INVALID_SOCKET;
 
-        return false;
+        throw "Socket::Shutdown";
     }
-    return true;
 }
 
 int Socket::GetErrorCode() const
@@ -72,11 +67,6 @@ std::string Socket::GetIp() const
 std::string Socket::GetPort() const
 {
     return port;
-}
-
-std::string Socket::GetErrorMessage() const
-{
-    return errorMessage;
 }
 
 struct addrinfo* Socket::GetHostAddrInfo() const
@@ -102,11 +92,6 @@ void Socket::SetIp(std::string ip)
 void Socket::SetPort(std::string port)
 {
     port = port;
-}
-
-void Socket::SetErrorMessage(std::string errorMessage)
-{
-    errorMessage = errorMessage;
 }
 
 void Socket::SetHostAddrInfo(struct addrinfo* hostAddrInfo)
